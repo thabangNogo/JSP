@@ -1,0 +1,51 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{45EF4784-C21C-4FF7-BF74-3639E74CE934}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "JobSafetyPro", "JobSafetyPro", "{337DA7F4-125A-4351-9543-7A929794E4A3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobSafetyPro.Domain", "src\JobSafetyPro\JobSafetyPro.Domain\JobSafetyPro.Domain.csproj", "{084338D6-4C4C-4087-A174-8692D213936A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobSafetyPro.Application", "src\JobSafetyPro\JobSafetyPro.Application\JobSafetyPro.Application.csproj", "{05AD4D4C-3EFD-4361-940A-5FB90251C82F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobSafetyPro.Infrastructure", "src\JobSafetyPro\JobSafetyPro.Infrastructure\JobSafetyPro.Infrastructure.csproj", "{C4679B8A-423E-420B-B70E-C1F4943DB678}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobSafetyPro.API", "src\JobSafetyPro\JobSafetyPro.API\JobSafetyPro.API.csproj", "{911BE58C-B498-4A40-BD9E-D56D40BF4C67}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{084338D6-4C4C-4087-A174-8692D213936A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{084338D6-4C4C-4087-A174-8692D213936A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{084338D6-4C4C-4087-A174-8692D213936A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{084338D6-4C4C-4087-A174-8692D213936A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05AD4D4C-3EFD-4361-940A-5FB90251C82F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05AD4D4C-3EFD-4361-940A-5FB90251C82F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05AD4D4C-3EFD-4361-940A-5FB90251C82F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05AD4D4C-3EFD-4361-940A-5FB90251C82F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4679B8A-423E-420B-B70E-C1F4943DB678}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4679B8A-423E-420B-B70E-C1F4943DB678}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4679B8A-423E-420B-B70E-C1F4943DB678}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4679B8A-423E-420B-B70E-C1F4943DB678}.Release|Any CPU.Build.0 = Release|Any CPU
+		{911BE58C-B498-4A40-BD9E-D56D40BF4C67}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{911BE58C-B498-4A40-BD9E-D56D40BF4C67}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{911BE58C-B498-4A40-BD9E-D56D40BF4C67}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{911BE58C-B498-4A40-BD9E-D56D40BF4C67}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{337DA7F4-125A-4351-9543-7A929794E4A3} = {45EF4784-C21C-4FF7-BF74-3639E74CE934}
+		{084338D6-4C4C-4087-A174-8692D213936A} = {337DA7F4-125A-4351-9543-7A929794E4A3}
+		{05AD4D4C-3EFD-4361-940A-5FB90251C82F} = {337DA7F4-125A-4351-9543-7A929794E4A3}
+		{C4679B8A-423E-420B-B70E-C1F4943DB678} = {337DA7F4-125A-4351-9543-7A929794E4A3}
+		{911BE58C-B498-4A40-BD9E-D56D40BF4C67} = {337DA7F4-125A-4351-9543-7A929794E4A3}
+	EndGlobalSection
+EndGlobal
