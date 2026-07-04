@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
 
+import '../config/app_config.dart';
+
 /// Extracts a short user-facing message from a [DioException].
 String dioErrorMessage(Object error) {
   if (error is! DioException) return error.toString();
@@ -8,8 +10,8 @@ String dioErrorMessage(Object error) {
       error.type == DioExceptionType.connectionTimeout ||
       error.type == DioExceptionType.sendTimeout ||
       error.type == DioExceptionType.receiveTimeout) {
-    return 'Cannot reach the server. Start the Job Safety Pro API '
-        '(http://127.0.0.1:5101) and try again.';
+    return 'Cannot reach the server (${AppConfig.apiBaseUrl}). '
+        'Check your connection and try again.';
   }
 
   final data = error.response?.data;

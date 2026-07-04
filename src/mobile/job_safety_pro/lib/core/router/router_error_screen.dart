@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../config/app_config.dart';
 import '../../shared/widgets/common_widgets.dart';
 import '../utils/dio_error_message.dart';
 import 'app_routes.dart';
@@ -36,8 +37,8 @@ class RouterErrorScreen extends StatelessWidget {
     }
 
     if (text.contains('DioException') || text.contains('Connection refused')) {
-      return 'Cannot reach the server. Start the Job Safety Pro API '
-          '(http://127.0.0.1:5101) and sign in again.';
+      return 'Cannot reach the server (${AppConfig.apiBaseUrl}). '
+          'Check your connection and sign in again.';
     }
 
     if (text.startsWith('GoException:')) {

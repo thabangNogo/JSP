@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../../core/storage/user_session_cleanup.dart';
 import '../../../../core/network/dio_provider.dart';
 import '../../../../core/utils/dio_error_message.dart';
 import '../../../../core/utils/connectivity_service.dart';
@@ -83,7 +84,11 @@ class AuthNotifier extends Notifier<AuthState> {
   Future<bool> login(String email, String password) async {
     state = state.copyWith(isLoading: true, error: null);
     try {
+      final previousUserId = state.user?.id;
       final user = await ref.read(authRepositoryProvider).login(email, password);
+      if (previousUserId != user.id) {
+        await ref.read(userSessionCleanupProvider).clear();
+      }
       state = AuthState(user: user, isLoading: false);
       return true;
     } catch (e) {
@@ -93,6 +98,7 @@ class AuthNotifier extends Notifier<AuthState> {
   }
 
   Future<void> handleSessionExpired() async {
+    await ref.read(userSessionCleanupProvider).clear();
     await ref.read(authRepositoryProvider).logout();
     if (ref.mounted) {
       state = const AuthState(isLoading: false);
@@ -101,6 +107,7 @@ class AuthNotifier extends Notifier<AuthState> {
 
   Future<void> logout() async {
     await ref.read(authRepositoryProvider).logout();
+    await ref.read(userSessionCleanupProvider).clear();
     state = const AuthState();
   }
 }

@@ -34,6 +34,21 @@ class JsaLocalDataSource {
     await _hiveService.draftsBox.delete(localId);
   }
 
+  Future<void> replaceAllDrafts(List<AssessmentDraftModel> drafts) async {
+    await _ensureReady();
+    await _hiveService.draftsBox.clear();
+    for (final draft in drafts) {
+      await _hiveService.draftsBox.put(draft.localId, draft.toJson());
+    }
+  }
+
+  Future<void> clearAll() async {
+    await _ensureReady();
+    await _hiveService.draftsBox.clear();
+    await _hiveService.cachedJsasBox.clear();
+    await _hiveService.deletedAssessmentIdsBox.clear();
+  }
+
   static const _deletedIdsKey = 'ids';
 
   Future<Set<String>> getDeletedAssessmentIds() async {

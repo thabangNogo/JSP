@@ -90,3 +90,7 @@ Open http://localhost:5173 — this is **not** the mobile app.
 - Sync queue for submissions when offline
 - Cached assessment history when disconnected
 - Offline banner on dashboard
+
+
+# Build APP
+- flutter build apk --release

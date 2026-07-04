@@ -51,60 +51,18 @@ class JsaRepositoryImpl implements JsaRepository {
       final remoteApproved = await _remote.getSummaries(AssessmentStatus.approved);
       final remote = [...remoteDrafts, ...remoteSubmitted, ...remoteApproved];
 
-      final byRemoteId = {for (final d in local) if (d.remoteId != null) d.remoteId!: d};
-      final merged = <AssessmentDraftModel>[...local];
+      // Remote summaries are scoped to the signed-in user. Only keep unsynced
+      // local drafts (no remote id); drop stale synced rows from other sessions.
+      final unsyncedLocal = local
+          .where((d) => d.remoteId == null && !deletedIds.contains(d.localId))
+          .toList();
+      final remoteFiltered = remote
+          .where((r) => r.remoteId != null && !deletedIds.contains(r.remoteId))
+          .toList();
 
-      for (final r in remote) {
-        final remoteId = r.remoteId;
-        if (remoteId == null || deletedIds.contains(remoteId)) {
-          continue;
-        }
-
-        final existing = byRemoteId[remoteId];
-        if (existing != null) {
-          final idx = merged.indexWhere((d) => d.localId == existing.localId);
-          if (idx >= 0) {
-            merged[idx] = existing.copyWith(
-              title: r.title.isNotEmpty ? r.title : existing.title,
-              department: r.department.isNotEmpty ? r.department : existing.department,
-              location: r.location.isNotEmpty ? r.location : existing.location,
-              section: r.section.isNotEmpty ? r.section : existing.section,
-              workLocationId: r.workLocationId ?? existing.workLocationId,
-              workSectionId: r.workSectionId ?? existing.workSectionId,
-              currentStep: r.currentStep,
-              status: _preferStatus(existing.status, r.status),
-              isSynced: true,
-              updatedAt: r.updatedAt ?? existing.updatedAt,
-            );
-          }
-        } else if (!deletedIds.contains(r.localId)) {
-          merged.add(
-            AssessmentDraftModel(
-              localId: remoteId,
-              remoteId: remoteId,
-              title: r.title,
-              jobDescription: r.jobDescription,
-              companyId: r.companyId,
-              plantId: r.plantId,
-              departmentId: r.departmentId,
-              department: r.department,
-              location: r.location,
-              section: r.section,
-              workLocationId: r.workLocationId,
-              workSectionId: r.workSectionId,
-              currentStep: r.currentStep,
-              status: r.status,
-              isSynced: true,
-              updatedAt: r.updatedAt,
-            ),
-          );
-        }
-      }
-
+      final merged = <AssessmentDraftModel>[...remoteFiltered, ...unsyncedLocal];
       final deduped = _dedupeAssessments(merged);
-      for (final draft in deduped) {
-        await _local.saveDraft(draft);
-      }
+      await _local.replaceAllDrafts(deduped);
       return deduped;
     } catch (_) {
       return local;
@@ -128,10 +86,6 @@ class JsaRepositoryImpl implements JsaRepository {
       case AssessmentStatus.draft:
         return 1;
     }
-  }
-
-  static AssessmentStatus _preferStatus(AssessmentStatus a, AssessmentStatus b) {
-    return _statusRank(a) >= _statusRank(b) ? a : b;
   }
 
   static List<AssessmentDraftModel> _dedupeAssessments(List<AssessmentDraftModel> items) {

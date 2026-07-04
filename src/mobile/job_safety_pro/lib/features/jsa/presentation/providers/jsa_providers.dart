@@ -42,6 +42,7 @@ final jsaHistoryProvider = FutureProvider<List<JsaModel>>((ref) async {
 });
 
 final assessmentDraftsProvider = FutureProvider<List<AssessmentDraftModel>>((ref) async {
+  ref.watch(authProvider.select((s) => s.user?.id));
   return ref.watch(jsaRepositoryProvider).getDrafts();
 });
 
