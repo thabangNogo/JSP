@@ -23,11 +23,14 @@ import {
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import PictureAsPdfIcon from '@mui/icons-material/PictureAsPdf';
 import { employeesApi } from '../api/employeesApi';
+import { useEmployeePpeHistory } from '../hooks/usePpe';
 
 export default function EmployeeDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [tab, setTab] = useState(0);
+
+  const { data: ppeHistory } = useEmployeePpeHistory(id);
 
   const { data, isLoading, error } = useQuery({
     queryKey: ['employee', id],
@@ -64,6 +67,7 @@ export default function EmployeeDetailPage() {
         <Tab label="Assessments" />
         <Tab label="Near Misses" />
         <Tab label="Corrective Actions" />
+        <Tab label="PPE" />
         <Tab label="Activity Timeline" />
       </Tabs>
 
@@ -184,6 +188,36 @@ export default function EmployeeDetailPage() {
       )}
 
       {tab === 4 && (
+        <Card>
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>PPE Item</TableCell>
+                <TableCell>Requested</TableCell>
+                <TableCell>Status</TableCell>
+                <TableCell>Dispatch</TableCell>
+                <TableCell>Collected</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {(ppeHistory ?? []).map((p) => (
+                <TableRow key={p.requestId}>
+                  <TableCell>{p.ppeItemName}</TableCell>
+                  <TableCell>{new Date(p.requestedDate).toLocaleDateString()}</TableCell>
+                  <TableCell>{p.status}</TableCell>
+                  <TableCell>{p.dispatchDate ? new Date(p.dispatchDate).toLocaleDateString() : '-'}</TableCell>
+                  <TableCell>{p.collectedDate ? new Date(p.collectedDate).toLocaleDateString() : '-'}</TableCell>
+                </TableRow>
+              ))}
+              {(ppeHistory ?? []).length === 0 && (
+                <TableRow><TableCell colSpan={5} align="center">No PPE history.</TableCell></TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </Card>
+      )}
+
+      {tab === 5 && (
         <Card>
           <CardContent>
             {data.activityTimeline.map((item, i) => (

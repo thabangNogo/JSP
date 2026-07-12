@@ -12,6 +12,7 @@ import '../../../jsa/presentation/providers/workflow_form_reset.dart';
 import '../../../safety/presentation/widgets/employee_kpi_section.dart';
 import '../../../safety/presentation/widgets/injury_free_days_card.dart';
 import '../../../safety/presentation/widgets/safety_actions_section.dart';
+import '../../../ppe/presentation/screens/my_ppe_screen.dart';
 import '../../../../core/utils/dio_error_message.dart';
 import '../../../../shared/widgets/common_widgets.dart';
 
@@ -78,6 +79,7 @@ class DashboardScreen extends ConsumerWidget {
                     ),
                     const SizedBox(height: 16),
                     const InjuryFreeDaysCard(),
+                    const MyPpeDashboardCard(),
                     const EmployeeKpiSection(),
                     const SafetyActionsSection(),
                     _AssessmentSection(

@@ -4,6 +4,7 @@ using JobSafetyPro.Domain.Entities.Incidents;
 using JobSafetyPro.Domain.Entities.MasterData;
 using JobSafetyPro.Domain.Entities.Organization;
 using JobSafetyPro.Domain.Entities.Safety;
+using JobSafetyPro.Domain.Entities.Ppe;
 using JobSafetyPro.Domain.Entities.Shared;
 using JobSafetyPro.Infrastructure.Persistence.Interceptors;
 using Microsoft.EntityFrameworkCore;
@@ -51,6 +52,12 @@ public class ApplicationDbContext : DbContext
     public DbSet<CorrectiveAction> CorrectiveActions => Set<CorrectiveAction>();
     public DbSet<Attachment> Attachments => Set<Attachment>();
     public DbSet<AuditLog> AuditLogs => Set<AuditLog>();
+
+    public DbSet<PpeCatalogueItem> PpeCatalogueItems => Set<PpeCatalogueItem>();
+
+    public DbSet<PpeRequest> PpeRequests => Set<PpeRequest>();
+
+    public DbSet<PpeRequestStatusHistory> PpeRequestStatusHistories => Set<PpeRequestStatusHistory>();
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

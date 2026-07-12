@@ -11,6 +11,8 @@ import {
 } from 'recharts';
 import { safetyApi } from '../api/safetyApi';
 import { workflowApi } from '../api/workflowApi';
+import { usePpeDashboardKpis, usePpeRequests } from '../hooks/usePpe';
+import { useNavigate } from 'react-router-dom';
 
 function StatCard({ title, value }: { title: string; value: number | string }) {
   return (
@@ -28,6 +30,12 @@ function StatCard({ title, value }: { title: string; value: number | string }) {
 }
 
 export default function DashboardPage() {
+  const navigate = useNavigate();
+  const { data: ppeKpis } = usePpeDashboardKpis();
+  const { data: overduePpe } = usePpeRequests({ archivedOnly: false });
+
+  const overdueRows = (overduePpe ?? []).filter((r) => r.isOverdue).slice(0, 5);
+
   const { data: pending } = useQuery({
     queryKey: ['pending-actions'],
     queryFn: () => workflowApi.getPendingActions(),
@@ -84,6 +92,61 @@ export default function DashboardPage() {
           </Box>
         </CardContent>
       </Card>
+
+      {ppeKpis && (
+        <Card sx={{ mb: 3, borderLeft: 4, borderColor: ppeKpis.overdueRequests > 0 ? 'error.main' : 'primary.main' }}>
+          <CardContent>
+            <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
+              <Typography variant="h6">Overdue PPE Requests</Typography>
+              <Typography
+                component="button"
+                variant="body2"
+                onClick={() => navigate('/ppe')}
+                sx={{ border: 0, bgcolor: 'transparent', cursor: 'pointer', color: 'primary.main' }}
+              >
+                Open PPE Dashboard
+              </Typography>
+            </Box>
+            <Grid container spacing={2} sx={{ mb: overdueRows.length ? 2 : 0 }}>
+              <Grid item xs={6} sm={4} md={2}>
+                <StatCard title="Open Requests" value={ppeKpis.openRequests} />
+              </Grid>
+              <Grid item xs={6} sm={4} md={2}>
+                <StatCard title="Pending Approval" value={ppeKpis.pendingApproval} />
+              </Grid>
+              <Grid item xs={6} sm={4} md={2}>
+                <StatCard title="Overdue" value={ppeKpis.overdueRequests} />
+              </Grid>
+              <Grid item xs={6} sm={4} md={2}>
+                <StatCard title="Low Stock Items" value={ppeKpis.lowStockItems} />
+              </Grid>
+            </Grid>
+            {overdueRows.length > 0 && (
+              <Box>
+                {overdueRows.map((r) => (
+                  <Box
+                    key={r.id}
+                    sx={{
+                      py: 1,
+                      px: 1.5,
+                      mb: 0.5,
+                      borderRadius: 1,
+                      bgcolor: 'error.light',
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      cursor: 'pointer',
+                    }}
+                    onClick={() => navigate(`/ppe/requests/${r.id}`)}
+                  >
+                    <Typography variant="body2">{r.requestNumber} · {r.employeeName} · {r.ppeItemName}</Typography>
+                    <Typography variant="caption">{r.ageDays} days</Typography>
+                  </Box>
+                ))}
+              </Box>
+            )}
+          </CardContent>
+        </Card>
+      )}
 
       {pending && (
         <Grid container spacing={2} sx={{ mb: 3 }}>

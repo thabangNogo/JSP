@@ -43,6 +43,12 @@ public static class DependencyInjection
         services.AddScoped<IManagerDashboardService, ManagerDashboardService>();
         services.AddScoped<IAuditQueryService, AuditQueryService>();
 
+        services.AddScoped<IPpeCatalogueService, PpeCatalogueService>();
+        services.AddScoped<IPpeRequestService, PpeRequestService>();
+        services.AddScoped<IPpeDashboardService, PpeDashboardService>();
+        services.AddScoped<IPpeReportService, PpeReportService>();
+        services.AddScoped<IPpeEscalationService, PpeEscalationService>();
+
         return services;
     }
 }

@@ -21,4 +21,5 @@ export const OCCUPATIONS = [
 ] as const;
 
 export const API_BASE_URL =
-  import.meta.env.VITE_API_URL ?? 'https://jspapi.homesteadflow.com/api/v1';
+  import.meta.env.VITE_API_URL ??
+  (import.meta.env.DEV ? 'http://localhost:5101/api/v1' : 'https://jspapi.homesteadflow.com/api/v1');

@@ -25,6 +25,7 @@ import '../../features/safety/presentation/screens/injury_list_screen.dart';
 import '../../features/safety/presentation/screens/notifications_screen.dart';
 import '../../features/safety/presentation/screens/report_near_miss_screen.dart';
 import '../../features/safety/presentation/screens/stop_unsafe_work_screen.dart';
+import '../../features/ppe/presentation/screens/my_ppe_screen.dart';
 import '../../features/sync/presentation/screens/sync_status_screen.dart';
 import 'app_routes.dart';
 import 'router_error_screen.dart';
@@ -121,6 +122,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(path: AppRoutes.notifications, builder: (_, __) => const NotificationsScreen()),
       GoRoute(path: AppRoutes.injuries, builder: (_, __) => const InjuryListScreen()),
       GoRoute(path: AppRoutes.captureInjury, builder: (_, __) => const CaptureInjuryScreen()),
+      GoRoute(path: AppRoutes.myPpe, builder: (_, __) => const MyPpeScreen()),
       GoRoute(
         path: AppRoutes.injuryDetail,
         builder: (_, state) => InjuryDetailScreen(injuryId: state.pathParameters['id']!),

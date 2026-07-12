@@ -4,6 +4,7 @@ using JobSafetyPro.Domain.Entities.MasterData;
 using JobSafetyPro.Domain.Entities.Incidents;
 using JobSafetyPro.Domain.Entities.Organization;
 using JobSafetyPro.Domain.Entities.Safety;
+using JobSafetyPro.Domain.Entities.Ppe;
 using JobSafetyPro.Domain.Entities.Shared;
 
 namespace JobSafetyPro.Domain.Interfaces;
@@ -33,6 +34,9 @@ public interface IUnitOfWork : IDisposable
     IRepository<UserDevice> UserDevices { get; }
     IRepository<CorrectiveAction> CorrectiveActions { get; }
     IRepository<Attachment> Attachments { get; }
+    IRepository<PpeCatalogueItem> PpeCatalogueItems { get; }
+    IRepository<PpeRequest> PpeRequests { get; }
+    IRepository<PpeRequestStatusHistory> PpeRequestStatusHistories { get; }
     IRepository<RefreshToken> RefreshTokens { get; }
     IAuditLogRepository AuditLogs { get; }
 

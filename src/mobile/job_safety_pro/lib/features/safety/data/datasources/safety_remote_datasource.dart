@@ -91,4 +91,11 @@ class SafetyRemoteDataSource {
   Future<void> markNotificationRead(String id) async {
     await _dio.post('${ApiConstants.notifications}/$id/read');
   }
+
+  Future<void> registerDevice(String fcmToken, String platform) async {
+    await _dio.post('${ApiConstants.notifications}/devices', data: {
+      'fcmToken': fcmToken,
+      'platform': platform,
+    });
+  }
 }

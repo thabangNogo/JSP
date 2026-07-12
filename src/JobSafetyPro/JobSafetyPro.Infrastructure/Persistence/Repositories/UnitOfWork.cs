@@ -4,6 +4,7 @@ using JobSafetyPro.Domain.Entities.Incidents;
 using JobSafetyPro.Domain.Entities.MasterData;
 using JobSafetyPro.Domain.Entities.Organization;
 using JobSafetyPro.Domain.Entities.Safety;
+using JobSafetyPro.Domain.Entities.Ppe;
 using JobSafetyPro.Domain.Entities.Shared;
 using JobSafetyPro.Domain.Interfaces;
 
@@ -39,6 +40,9 @@ public class UnitOfWork : IUnitOfWork
         UserDevices = new Repository<UserDevice>(context);
         CorrectiveActions = new Repository<CorrectiveAction>(context);
         Attachments = new Repository<Attachment>(context);
+        PpeCatalogueItems = new Repository<PpeCatalogueItem>(context);
+        PpeRequests = new Repository<PpeRequest>(context);
+        PpeRequestStatusHistories = new Repository<PpeRequestStatusHistory>(context);
         RefreshTokens = new Repository<RefreshToken>(context);
         AuditLogs = new AuditLogRepository(context);
     }
@@ -66,6 +70,9 @@ public class UnitOfWork : IUnitOfWork
     public IRepository<UserDevice> UserDevices { get; }
     public IRepository<CorrectiveAction> CorrectiveActions { get; }
     public IRepository<Attachment> Attachments { get; }
+    public IRepository<PpeCatalogueItem> PpeCatalogueItems { get; }
+    public IRepository<PpeRequest> PpeRequests { get; }
+    public IRepository<PpeRequestStatusHistory> PpeRequestStatusHistories { get; }
     public IRepository<RefreshToken> RefreshTokens { get; }
     public IAuditLogRepository AuditLogs { get; }
 

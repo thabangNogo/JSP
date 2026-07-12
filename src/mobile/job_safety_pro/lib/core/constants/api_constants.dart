@@ -17,6 +17,7 @@ class ApiConstants {
   static const managerSafetyKpis = '/safety-kpis/manager';
   static const injuryFreeDays = '/dashboard/injury-free-days';
   static const injuries = '/injuries';
+  static const ppeMy = '/ppe/requests/my';
   static const workLookups = '/work-lookups';
   static const attachments = '/attachments';
 }

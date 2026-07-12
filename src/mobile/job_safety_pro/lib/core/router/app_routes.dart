@@ -25,6 +25,7 @@ class AppRoutes {
   static const injuries = '/safety/injuries';
   static const captureInjury = '/safety/injuries/capture';
   static const injuryDetail = '/safety/injuries/:id';
+  static const myPpe = '/safety/my-ppe';
 
   static String injuryDetailPath(String id) => '/safety/injuries/$id';
 }

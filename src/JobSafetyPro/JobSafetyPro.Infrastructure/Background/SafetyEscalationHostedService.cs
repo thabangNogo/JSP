@@ -27,6 +27,10 @@ public class SafetyEscalationHostedService : BackgroundService
                 using var scope = _serviceProvider.CreateScope();
                 var escalation = scope.ServiceProvider.GetRequiredService<ISafetyEscalationService>();
                 await escalation.ProcessOverdueCorrectiveActionsAsync(stoppingToken);
+
+                var ppeEscalation = scope.ServiceProvider.GetRequiredService<IPpeEscalationService>();
+                await ppeEscalation.ProcessEscalationsAsync(stoppingToken);
+                await ppeEscalation.CheckLowStockAsync(stoppingToken);
             }
             catch (Exception ex)
             {

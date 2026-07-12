@@ -26,7 +26,10 @@ public static class DependencyInjection
         services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<IPasswordHasher, PasswordHasher>();
         services.AddScoped<IAuditService, AuditService>();
+        services.AddScoped<IFcmPushService, FcmPushService>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+        services.AddHttpClient("Fcm");
 
         services.AddDbContext<ApplicationDbContext>(options =>
             options.UseSqlServer(

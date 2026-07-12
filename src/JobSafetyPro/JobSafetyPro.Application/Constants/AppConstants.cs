@@ -19,4 +19,6 @@ public static class RelatedEntityTypes
     public const string StopUnsafeWork = "StopUnsafeWork";
     public const string Injury = "Injury";
     public const string CorrectiveAction = "CorrectiveAction";
+    public const string PpeRequest = "PpeRequest";
+    public const string PpeCatalogueItem = "PpeCatalogueItem";
 }

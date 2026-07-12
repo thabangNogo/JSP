@@ -2,6 +2,7 @@ using JobSafetyPro.Application.Constants;
 using JobSafetyPro.Application.Interfaces;
 using JobSafetyPro.Domain.Entities.Identity;
 using JobSafetyPro.Domain.Entities.Organization;
+using JobSafetyPro.Domain.Entities.Ppe;
 using JobSafetyPro.Domain.Entities.Safety;
 using JobSafetyPro.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
@@ -34,12 +35,30 @@ public static class DatabaseSeeder
         await EmployeeSampleSeed.SeedIfNeededAsync(context, passwordHasher, logger);
         await SafetyLeadSampleSeed.SeedIfNeededAsync(context, passwordHasher, logger);
 
+        if (!await context.PpeCatalogueItems.AnyAsync())
+        {
+            context.PpeCatalogueItems.AddRange(PpeCatalogueSeed.CreateDefaultItems(now));
+            await context.SaveChangesAsync();
+            logger.LogInformation("Seeded PPE catalogue items.");
+        }
+
+        var legacyCompany = await context.Companies.FirstOrDefaultAsync(c => c.Name == "Demo Manufacturing Co");
+        if (legacyCompany != null)
+        {
+            legacyCompany.Name = "Astec";
+            legacyCompany.Code = "ASTEC";
+            legacyCompany.ModifiedDate = now;
+            legacyCompany.ModifiedBy = "system";
+            await context.SaveChangesAsync();
+            logger.LogInformation("Renamed company from Demo Manufacturing Co to Astec.");
+        }
+
         if (await context.Companies.AnyAsync()) return;
 
         var company = new Company
         {
-            Name = "Demo Manufacturing Co",
-            Code = "DEMO",
+            Name = "Astec",
+            Code = "ASTEC",
             CreatedBy = "system",
             CreatedDate = now
         };

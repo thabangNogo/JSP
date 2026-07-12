@@ -18,6 +18,14 @@ import StopUnsafeWorkListPage from './pages/StopUnsafeWorkListPage';
 import InjuryListPage from './pages/injuries/InjuryListPage';
 import InjuryDetailPage from './pages/injuries/InjuryDetailPage';
 import InjuryFormPage from './pages/injuries/InjuryFormPage';
+import PpeDashboardPage from './pages/ppe/PpeDashboardPage';
+import PpeRequestListPage from './pages/ppe/PpeRequestListPage';
+import PpeCataloguePage from './pages/ppe/PpeCataloguePage';
+import PpeIssuedPage from './pages/ppe/PpeIssuedPage';
+import PpeArchivedPage from './pages/ppe/PpeArchivedPage';
+import PpeReportsPage from './pages/ppe/PpeReportsPage';
+import PpeRequestDetailPage from './pages/ppe/PpeRequestDetailPage';
+import PpeRequestFormPage from './pages/ppe/PpeRequestFormPage';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -52,6 +60,15 @@ export default function App() {
                 <Route path="injuries/new" element={<InjuryFormPage />} />
                 <Route path="injuries/:id" element={<InjuryDetailPage />} />
                 <Route path="stop-unsafe-work" element={<StopUnsafeWorkListPage />} />
+                <Route path="ppe" element={<PpeDashboardPage />} />
+                <Route path="ppe/requests" element={<PpeRequestListPage />} />
+                <Route path="ppe/requests/new" element={<PpeRequestFormPage />} />
+                <Route path="ppe/requests/:id/edit" element={<PpeRequestFormPage />} />
+                <Route path="ppe/requests/:id" element={<PpeRequestDetailPage />} />
+                <Route path="ppe/catalogue" element={<PpeCataloguePage />} />
+                <Route path="ppe/issued" element={<PpeIssuedPage />} />
+                <Route path="ppe/archived" element={<PpeArchivedPage />} />
+                <Route path="ppe/reports" element={<PpeReportsPage />} />
                 <Route path="corrective-actions" element={<PlaceholderPage title="Corrective Actions" />} />
                 <Route path="reports" element={<PlaceholderPage title="Reports" />} />
                 <Route path="settings" element={<PlaceholderPage title="Settings" />} />

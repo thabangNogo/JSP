@@ -37,4 +37,22 @@ class NotificationService {
       '$count assessment(s) synced successfully.',
     );
   }
+
+  Future<void> showPpeNotification(String title, String body) async {
+    const details = NotificationDetails(
+      android: AndroidNotificationDetails(
+        'jsp_ppe',
+        'PPE Updates',
+        importance: Importance.high,
+        priority: Priority.high,
+      ),
+      iOS: DarwinNotificationDetails(),
+    );
+    await _plugin.show(
+      DateTime.now().millisecondsSinceEpoch ~/ 1000,
+      title,
+      body,
+      details,
+    );
+  }
 }
