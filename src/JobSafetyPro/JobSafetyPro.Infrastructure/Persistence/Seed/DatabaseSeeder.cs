@@ -41,12 +41,12 @@ public static class DatabaseSeeder
         var legacyCompany = await context.Companies.FirstOrDefaultAsync(c => c.Name == "Demo Manufacturing Co");
         if (legacyCompany != null)
         {
-            legacyCompany.Name = "Astec Industries";
+            legacyCompany.Name = "Astec";
             legacyCompany.Code = "ASTEC";
             legacyCompany.ModifiedDate = now;
             legacyCompany.ModifiedBy = "system";
             await context.SaveChangesAsync();
-            logger.LogInformation("Renamed company from Demo Manufacturing Co to Astec Industries.");
+            logger.LogInformation("Renamed company from Demo Manufacturing Co to Astec.");
         }
 
         if (!await context.Companies.AnyAsync())
@@ -67,7 +67,7 @@ public static class DatabaseSeeder
     {
         var company = new Company
         {
-            Name = "Astec Industries",
+            Name = "Astec",
             Code = "ASTEC",
             CreatedBy = "system",
             CreatedDate = now

@@ -49,7 +49,7 @@ export default function TopBar({ onMenuClick }: TopBarProps) {
           <MenuIcon />
         </IconButton>
         <Typography variant="h6" sx={{ flexGrow: 1, fontWeight: 700 }}>
-          Astec
+          Astec Industries
         </Typography>
         <IconButton color="inherit" onClick={() => navigate('/notifications')}>
           <Badge badgeContent={unread?.unreadCount ?? 0} color="error">
