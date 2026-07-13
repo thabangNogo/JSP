@@ -55,6 +55,12 @@ export function usePpeMutations() {
         ppeApi.dispatchRequest(id, payload),
       onSuccess: invalidate,
     }),
+    collectRequest: useMutation({
+      mutationFn: ({ id, collectedDate }: { id: string; collectedDate: string }) =>
+        ppeApi.collectRequest(id, collectedDate),
+      onSuccess: invalidate,
+    }),
+    completeRequest: useMutation({ mutationFn: ppeApi.completeRequest, onSuccess: invalidate }),
     archiveRequest: useMutation({ mutationFn: ppeApi.archiveRequest, onSuccess: invalidate }),
     createCatalogueItem: useMutation({ mutationFn: ppeApi.createCatalogueItem, onSuccess: invalidate }),
     updateCatalogueItem: useMutation({

@@ -2,7 +2,6 @@ using JobSafetyPro.Application.Constants;
 using JobSafetyPro.Application.Interfaces;
 using JobSafetyPro.Domain.Entities.Identity;
 using JobSafetyPro.Domain.Entities.Organization;
-using JobSafetyPro.Domain.Entities.Ppe;
 using JobSafetyPro.Domain.Entities.Safety;
 using JobSafetyPro.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
@@ -32,9 +31,6 @@ public static class DatabaseSeeder
             logger.LogInformation("Seeded work department, location and section master data.");
         }
 
-        await EmployeeSampleSeed.SeedIfNeededAsync(context, passwordHasher, logger);
-        await SafetyLeadSampleSeed.SeedIfNeededAsync(context, passwordHasher, logger);
-
         if (!await context.PpeCatalogueItems.AnyAsync())
         {
             context.PpeCatalogueItems.AddRange(PpeCatalogueSeed.CreateDefaultItems(now));
@@ -45,19 +41,33 @@ public static class DatabaseSeeder
         var legacyCompany = await context.Companies.FirstOrDefaultAsync(c => c.Name == "Demo Manufacturing Co");
         if (legacyCompany != null)
         {
-            legacyCompany.Name = "Astec";
+            legacyCompany.Name = "Astec Industries";
             legacyCompany.Code = "ASTEC";
             legacyCompany.ModifiedDate = now;
             legacyCompany.ModifiedBy = "system";
             await context.SaveChangesAsync();
-            logger.LogInformation("Renamed company from Demo Manufacturing Co to Astec.");
+            logger.LogInformation("Renamed company from Demo Manufacturing Co to Astec Industries.");
         }
 
-        if (await context.Companies.AnyAsync()) return;
+        if (!await context.Companies.AnyAsync())
+        {
+            await CreateInitialCompanyAsync(context, passwordHasher, logger, now);
+        }
 
+        await SystemRolesSeed.EnsureAsync(context, logger);
+        await EmployeeSampleSeed.SeedIfNeededAsync(context, passwordHasher, logger);
+        await SafetyLeadSampleSeed.SeedIfNeededAsync(context, passwordHasher, logger);
+    }
+
+    private static async Task CreateInitialCompanyAsync(
+        ApplicationDbContext context,
+        IPasswordHasher passwordHasher,
+        ILogger logger,
+        DateTime now)
+    {
         var company = new Company
         {
-            Name = "Astec",
+            Name = "Astec Industries",
             Code = "ASTEC",
             CreatedBy = "system",
             CreatedDate = now
@@ -87,17 +97,14 @@ public static class DatabaseSeeder
         };
         context.Departments.Add(department);
 
-        var roles = new[]
-        {
+        context.Roles.AddRange(
             new Role { Name = AppRoles.Administrator, Description = "System administrator", IsSystemRole = true, CreatedBy = "system", CreatedDate = now },
             new Role { Name = AppRoles.HseManager, Description = "HSE manager", IsSystemRole = true, CreatedBy = "system", CreatedDate = now },
             new Role { Name = AppRoles.SafetyManager, Description = "Safety manager", IsSystemRole = true, CreatedBy = "system", CreatedDate = now },
             new Role { Name = AppRoles.SafetyOfficer, Description = "Safety officer", IsSystemRole = true, CreatedBy = "system", CreatedDate = now },
             new Role { Name = AppRoles.Supervisor, Description = "Supervisor", IsSystemRole = true, CreatedBy = "system", CreatedDate = now },
             new Role { Name = AppRoles.Operator, Description = "Operator", IsSystemRole = true, CreatedBy = "system", CreatedDate = now },
-            new Role { Name = AppRoles.Auditor, Description = "Auditor", IsSystemRole = true, CreatedBy = "system", CreatedDate = now }
-        };
-        context.Roles.AddRange(roles);
+            new Role { Name = AppRoles.Auditor, Description = "Auditor", IsSystemRole = true, CreatedBy = "system", CreatedDate = now });
 
         context.RiskLevels.AddRange(
             new RiskLevel { Code = "LOW", Name = "Low", NumericValue = 1, ColorHex = "#4CAF50", CreatedBy = "system", CreatedDate = now },

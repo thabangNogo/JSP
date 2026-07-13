@@ -4,11 +4,12 @@ import {
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { usePpeRequest } from '../../hooks/usePpe';
+import PpeRequestWorkflowActions from '../../components/ppe/PpeRequestWorkflowActions';
 
 export default function PpeRequestDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { data, isLoading, error } = usePpeRequest(id);
+  const { data, isLoading, error, refetch } = usePpeRequest(id);
 
   if (isLoading) return <CircularProgress />;
   if (error) return <Alert severity="error">{(error as Error).message}</Alert>;
@@ -22,6 +23,18 @@ export default function PpeRequestDetailPage() {
         <Chip label={data.status} color={data.isOverdue ? 'error' : 'primary'} />
         {data.isOverdue && <Chip label="Overdue" color="error" variant="outlined" />}
       </Box>
+
+      <Card sx={{ mb: 2 }}>
+        <CardContent>
+          <PpeRequestWorkflowActions
+            requestId={data.id}
+            status={data.status}
+            employeeName={data.employeeName}
+            onActionComplete={() => refetch()}
+          />
+        </CardContent>
+      </Card>
+
       <Grid container spacing={2}>
         <Grid item xs={12} md={6}>
           <Card><CardContent>
@@ -34,6 +47,9 @@ export default function PpeRequestDetailPage() {
             <Detail label="Quantity" value={String(data.quantity)} />
             <Detail label="Priority" value={data.priority} />
             <Detail label="Reason" value={data.reason} />
+            {data.comments && <Detail label="Comments" value={data.comments} />}
+            {data.dispatchDate && <Detail label="Dispatch Date" value={new Date(data.dispatchDate).toLocaleString()} />}
+            {data.collectedDate && <Detail label="Collected Date" value={new Date(data.collectedDate).toLocaleDateString()} />}
           </CardContent></Card>
         </Grid>
         <Grid item xs={12} md={6}>
@@ -45,6 +61,9 @@ export default function PpeRequestDetailPage() {
                   <StepLabel>
                     {h.newStatus} · {new Date(h.actionDate).toLocaleString()}
                     <Typography variant="caption" display="block">{h.actionByUserName}</Typography>
+                    {h.comments && (
+                      <Typography variant="caption" display="block" color="text.secondary">{h.comments}</Typography>
+                    )}
                   </StepLabel>
                 </Step>
               ))}
