@@ -74,7 +74,7 @@ export default function Sidebar({ mobileOpen, onClose }: SidebarProps) {
       <Toolbar sx={{ px: 2 }}>
         <Box>
           <Box sx={{ fontWeight: 800, fontSize: 18, color: 'primary.main' }}>Job Safety Pro</Box>
-          <Box sx={{ fontSize: 12, color: 'text.secondary' }}>Safety Manager Portal</Box>
+          <Box sx={{ fontSize: 12, color: 'text.secondary' }}>Safety Portal</Box>
         </Box>
       </Toolbar>
       <List sx={{ flex: 1, px: 1 }}>

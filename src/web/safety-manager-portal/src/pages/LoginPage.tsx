@@ -85,7 +85,7 @@ export default function LoginPage() {
           <Box textAlign="center" mb={3}>
             <HealthAndSafetyIcon color="primary" sx={{ fontSize: 48, mb: 1 }} />
             <Typography variant="h5" fontWeight={700}>
-              Safety Manager Login
+              Safety Login
             </Typography>
             <Typography variant="body2" color="text.secondary">
               Job Safety Pro
