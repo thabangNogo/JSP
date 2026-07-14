@@ -58,20 +58,8 @@ builder.Services.AddSwaggerGen(options =>
 
 builder.Services.AddCors(options =>
 {
-    var corsOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? Array.Empty<string>();
     options.AddPolicy("Default", policy =>
-    {
-        if (corsOrigins.Length > 0)
-        {
-            policy.WithOrigins(corsOrigins)
-                .AllowAnyHeader()
-                .AllowAnyMethod();
-        }
-        else
-        {
-            policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
-        }
-    });
+        policy.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
 });
 
 var app = builder.Build();
@@ -88,8 +76,6 @@ else
 {
     app.UseHttpsRedirection();
 }
-
-app.UseRouting();
 app.UseCors("Default");
 app.UseAuthentication();
 app.UseAuthorization();

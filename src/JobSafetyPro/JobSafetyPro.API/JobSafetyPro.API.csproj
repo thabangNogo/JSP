@@ -28,4 +28,8 @@
   <ItemGroup>
     <Folder Include="logs\" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="web.config" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
 </Project>
